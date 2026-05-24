@@ -128,28 +128,27 @@ function sanitizeProjects() {
 
 async function loadData(callback) {
   try {
-    const response = await fetch('assets/portfolio-data.json');
+    const response = await fetch('assets/portfolio-data.json', { cache: 'no-store' });
 
     if (!response.ok) {
-      throw new Error('Failed to load portfolio data');
+      throw new Error('Failed to load portfolio-data.json');
     }
 
-    projects = await response.json();
+    const data = await response.json();
 
+    if (!Array.isArray(data)) {
+      throw new Error('Invalid portfolio data format');
+    }
+
+    projects = data;
     sanitizeProjects();
-
-    if (callback) callback();
-
   } catch (error) {
-
     console.error('Error loading portfolio data:', error);
-
     projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
-
     sanitizeProjects();
-
-    if (callback) callback();
   }
+
+  if (callback) callback();
 }
 
 function saveData(callback) {
