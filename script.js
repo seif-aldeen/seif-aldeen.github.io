@@ -126,23 +126,30 @@ function sanitizeProjects() {
   });
 }
 
-function loadData(callback) {
-  // Primary store: IndexedDB (large quota for images)
-  loadFromDB(function(data) {
-    if (data && data.length > 0) {
-      projects = data;
-      sanitizeProjects();
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(projects)); } catch (_) {}
-    } else {
-      // Fallback: localStorage cache
-      try {
-        var saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) { projects = JSON.parse(saved); sanitizeProjects(); }
-        else { projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS)); }
-      } catch (_) { projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS)); }
+async function loadData(callback) {
+  try {
+    const response = await fetch('assets/portfolio-data.json');
+
+    if (!response.ok) {
+      throw new Error('Failed to load portfolio data');
     }
+
+    projects = await response.json();
+
+    sanitizeProjects();
+
     if (callback) callback();
-  });
+
+  } catch (error) {
+
+    console.error('Error loading portfolio data:', error);
+
+    projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+
+    sanitizeProjects();
+
+    if (callback) callback();
+  }
 }
 
 function saveData(callback) {
