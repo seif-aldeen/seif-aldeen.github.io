@@ -134,7 +134,7 @@ async function loadData(callback) {
     }
   }
   try {
-    var response = await fetch('portfolio-data.json', { cache: isDevMode ? 'no-store' : 'default' });
+    var response = await fetch('portfolio-data.json', { cache: 'no-store' });
     if (!response.ok) throw new Error('Portfolio data request failed');
     projects = await response.json();
     if (!Array.isArray(projects)) throw new Error('Portfolio data is invalid');
@@ -167,7 +167,7 @@ async function loadPageContent(callback) {
     return;
   }
   try {
-    var response = await fetch('site-content.json', { cache: isDevMode ? 'no-store' : 'default' });
+    var response = await fetch('site-content.json', { cache: 'no-store' });
     pageContent = response.ok ? await response.json() : {};
   } catch (_) { pageContent = {}; }
   if (!pageContent) pageContent = {};
