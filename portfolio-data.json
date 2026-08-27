@@ -510,7 +510,7 @@
     "hidden": false,
     "approvalPending": false,
     "status": "1st Place Competition Robot",
-    "statusTone": "neutral",
+    "statusTone": "success",
     "categories": [
       "Robotics",
       "Embedded Systems"
