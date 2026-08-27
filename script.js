@@ -97,6 +97,37 @@ function normalizeCoverSettings(project) {
   };
 }
 
+function normalizeStatusColor(value) {
+  var color = String(value || '').trim();
+  return /^#[0-9a-f]{6}$/i.test(color) ? color.toLowerCase() : '';
+}
+
+function presetStatusColor(tone) {
+  return {
+    neutral: '#475569', complete: '#475569',
+    production: '#c2410c',
+    prefab: '#1d4ed8',
+    progress: '#d97706', warning: '#d97706',
+    success: '#059669', validated: '#059669',
+    purple: '#7c3aed', danger: '#dc2626'
+  }[tone] || '#475569';
+}
+
+function statusTextColor(color) {
+  var safe = normalizeStatusColor(color) || '#475569';
+  var red = parseInt(safe.slice(1, 3), 16);
+  var green = parseInt(safe.slice(3, 5), 16);
+  var blue = parseInt(safe.slice(5, 7), 16);
+  return ((red * 299 + green * 587 + blue * 114) / 1000) > 165 ? '#08101f' : '#ffffff';
+}
+
+function statusBadgeHtml(project) {
+  var tone = String(project.statusTone || 'neutral').replace(/[^a-z0-9_-]/gi, '') || 'neutral';
+  var custom = normalizeStatusColor(project.statusColor);
+  var style = custom ? ' style="--status-bg:' + custom + ';--status-fg:' + statusTextColor(custom) + '"' : '';
+  return '<span class="project-status status-' + tone + (custom ? ' status-custom' : '') + '"' + style + '>' + escHtml(project.status || 'Project') + '</span>';
+}
+
 function sanitizeProjects() {
   projects.forEach(function(p) {
     if (p.images) p.images = p.images.filter(function(img) { return img.src && img.src.indexOf('via.placeholder') === -1; });
@@ -115,6 +146,7 @@ function sanitizeProjects() {
     p.approvalPending = Boolean(p.approvalPending);
     p.status = p.status || '';
     p.statusTone = p.statusTone || 'neutral';
+    p.statusColor = normalizeStatusColor(p.statusColor);
     p.categories = Array.isArray(p.categories) ? p.categories.filter(Boolean) : [];
     if (!p.rating) p.rating = '';
     if (!p.reviewTitle) p.reviewTitle = '';
@@ -553,7 +585,7 @@ function renderProjects() {
       coverHtml = '<div class="card-cover-viewport">' + coverImg + (firstType === 'video' ? '<span class="card-cover-play">\u25B6</span>' : '') + '</div>';
     }
     var ratingHtml = proj.rating ? '<span class="project-rating" aria-label="' + escHtml(proj.rating) + ' out of 5 client rating"><strong>\u2605 ' + escHtml(proj.rating) + '</strong><span>Upwork client review</span></span>' : '';
-    var statusHtml = '<span class="project-status status-' + escHtml(proj.statusTone || 'complete') + '">' + escHtml(proj.status || 'Project') + '</span>';
+    var statusHtml = statusBadgeHtml(proj);
     var hiddenHtml = proj.hidden ? '<span class="project-hidden-badge">Hidden</span>' : '';
     card.innerHTML = overlay + '<div class="project-cover-shell">' + coverHtml + statusHtml + hiddenHtml + '<span class="view-case-study">View Case Study \u2192</span></div><div class="card-content"><span class="card-label">' + escHtml(proj.label) + '</span>' + ratingHtml + '<h3>' + escHtml(proj.title) + '</h3><p>' + escHtml(proj.description) + '</p><ul class="tag-list">' + proj.tags.slice(0, 5).map(function(t) { return '<li>' + escHtml(t) + '</li>'; }).join('') + '</ul></div>';
     if (isDevMode) {
@@ -893,7 +925,7 @@ function initSectionEditors() {
 function openEditor(projectId) {
   editingProjectId = projectId;
   var isNew = projectId === null;
-  var proj = isNew ? { id: '', label: '', title: '', description: '', tags: [], categories: [], featured: false, hidden: true, approvalPending: true, status: 'Draft', statusTone: 'neutral', images: [], coverSettings: { focusX: 50, focusY: 50, zoom: 1 }, rating: '', reviewTitle: '', reviewText: '', reviewDate: '', detail: { overview: '', objective: '', role: '', highlights: '', milestones: '', decisions: '', deliverables: '', challenges: '', results: '', technologies: '' } } : JSON.parse(JSON.stringify(getProject(projectId)));
+  var proj = isNew ? { id: '', label: '', title: '', description: '', tags: [], categories: [], featured: false, hidden: true, approvalPending: true, status: 'Draft', statusTone: 'neutral', statusColor: '', images: [], coverSettings: { focusX: 50, focusY: 50, zoom: 1 }, rating: '', reviewTitle: '', reviewText: '', reviewDate: '', detail: { overview: '', objective: '', role: '', highlights: '', milestones: '', decisions: '', deliverables: '', challenges: '', results: '', technologies: '' } } : JSON.parse(JSON.stringify(getProject(projectId)));
   var coverSettings = normalizeCoverSettings(proj);
   var coverSource = proj.images && proj.images[0] && (proj.images[0].type || detectMediaType(proj.images[0].src)) !== 'video' ? proj.images[0].src : '';
   var overlay = document.createElement('div');
@@ -908,7 +940,7 @@ function openEditor(projectId) {
     '<div class="admin-field"><label>Tags</label><input class="admin-input" id="edit-tags" value="' + escHtml(proj.tags.join(', ')) + '"></div>' +
     '<div class="admin-field"><label>Homepage Filters</label><input class="admin-input" id="edit-categories" value="' + escHtml((proj.categories || []).join(', ')) + '" placeholder="PCB Design, Embedded Systems"></div>' +
     '<div class="admin-field"><label>Validation Status</label><input class="admin-input" id="edit-status" value="' + escHtml(proj.status || '') + '" placeholder="In Production - Bring-up Pending"></div>' +
-    '<div class="admin-field"><label>Status Color</label><select class="admin-input" id="edit-status-tone"><option value="neutral"' + (proj.statusTone === 'neutral' ? ' selected' : '') + '>Neutral</option><option value="progress"' + (proj.statusTone === 'progress' ? ' selected' : '') + '>In progress</option><option value="success"' + (proj.statusTone === 'success' ? ' selected' : '') + '>Validated / accepted</option><option value="warning"' + (proj.statusTone === 'warning' ? ' selected' : '') + '>Pending / pre-fabrication</option></select></div>' +
+    '<div class="admin-field"><label>Status Style</label><select class="admin-input" id="edit-status-tone"><option value="neutral"' + (proj.statusTone === 'neutral' ? ' selected' : '') + '>Gray - Complete / neutral</option><option value="production"' + (proj.statusTone === 'production' ? ' selected' : '') + '>Orange - In production</option><option value="prefab"' + (proj.statusTone === 'prefab' ? ' selected' : '') + '>Blue - Pre-fabrication</option><option value="progress"' + (proj.statusTone === 'progress' ? ' selected' : '') + '>Amber - In progress</option><option value="success"' + ((proj.statusTone === 'success' || proj.statusTone === 'validated') ? ' selected' : '') + '>Green - Validated / winner</option><option value="purple"' + (proj.statusTone === 'purple' ? ' selected' : '') + '>Purple - Featured milestone</option><option value="danger"' + (proj.statusTone === 'danger' ? ' selected' : '') + '>Red - Needs attention</option></select><div class="status-color-editor"><label for="edit-status-color">Custom color</label><input type="color" id="edit-status-color" value="' + (normalizeStatusColor(proj.statusColor) || presetStatusColor(proj.statusTone)) + '"><span class="status-color-preview" id="statusColorPreview">' + escHtml(proj.status || 'Project status') + '</span></div></div>' +
     '<div class="admin-check-grid"><label><input type="checkbox" id="edit-featured"' + (proj.featured ? ' checked' : '') + '> Featured case study</label><label><input type="checkbox" id="edit-hidden"' + (proj.hidden ? ' checked' : '') + '> Hide from public site</label><label><input type="checkbox" id="edit-approval"' + (proj.approvalPending ? ' checked' : '') + '> Publication approval pending</label></div>' +
     '<div class="admin-field"><label>Upwork Rating (leave blank if none)</label><input class="admin-input" id="edit-rating" value="' + escHtml(proj.rating || '') + '" placeholder="5.0"></div>' +
     '<div class="admin-field"><label>Review Project Title</label><input class="admin-input" id="edit-review-title" value="' + escHtml(proj.reviewTitle || '') + '"></div>' +
@@ -986,6 +1018,25 @@ function openEditor(projectId) {
 
   wireMediaButtons();
   wireCoverControls();
+  wireStatusColorControls();
+}
+
+function wireStatusColorControls() {
+  var tone = document.getElementById('edit-status-tone');
+  var color = document.getElementById('edit-status-color');
+  var status = document.getElementById('edit-status');
+  var preview = document.getElementById('statusColorPreview');
+  if (!tone || !color || !status || !preview) return;
+  var update = function(usePreset) {
+    if (usePreset) color.value = presetStatusColor(tone.value);
+    preview.textContent = status.value.trim() || 'Project status';
+    preview.style.background = color.value;
+    preview.style.color = statusTextColor(color.value);
+  };
+  tone.addEventListener('change', function() { update(true); });
+  color.addEventListener('input', function() { update(false); });
+  status.addEventListener('input', function() { update(false); });
+  update(false);
 }
 
 function makeMediaItemHTML(media, index) {
@@ -1114,6 +1165,7 @@ function saveEdit(isNew) {
     approvalPending: document.getElementById('edit-approval').checked,
     status: document.getElementById('edit-status').value.trim(),
     statusTone: document.getElementById('edit-status-tone').value,
+    statusColor: normalizeStatusColor(document.getElementById('edit-status-color').value),
     images: images,
     coverSettings: {
       focusX: Number(document.getElementById('coverFocusX').value),
@@ -1152,6 +1204,7 @@ function saveEdit(isNew) {
       proj.approvalPending = data.approvalPending;
       proj.status = data.status;
       proj.statusTone = data.statusTone;
+      proj.statusColor = data.statusColor;
       proj.images = data.images;
       proj.coverSettings = data.coverSettings;
       proj.rating = data.rating;
@@ -1184,6 +1237,7 @@ function duplicateProject(projectId) {
   clone.approvalPending = true;
   clone.status = 'Draft';
   clone.statusTone = 'neutral';
+  clone.statusColor = '';
   var index = projects.findIndex(function(project) { return project.id === projectId; });
   projects.splice(index + 1, 0, clone);
   saveData(function() {
@@ -1237,7 +1291,7 @@ function renderProjectDetail() {
   if (labelEl) labelEl.textContent = proj.label;
   if (tagsEl) tagsEl.innerHTML = proj.tags.map(function(t) { return '<li>' + escHtml(t) + '</li>'; }).join('');
   var statusDetail = document.getElementById('projectStatusDetail');
-  if (statusDetail) statusDetail.innerHTML = proj.status ? '<span class="project-status status-' + escHtml(proj.statusTone || 'neutral') + '">' + escHtml(proj.status) + '</span>' : '';
+  if (statusDetail) statusDetail.innerHTML = proj.status ? statusBadgeHtml(proj) : '';
   var ratingDetail = document.getElementById('projectRatingDetail');
   if (ratingDetail) {
     ratingDetail.hidden = !proj.rating;

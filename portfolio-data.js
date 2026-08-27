@@ -158,6 +158,11 @@ window.PORTFOLIO_DATA = [
         "type": "image"
       },
       {
+        "src": "assets/projects/grtb001-telemetry/upload-1787829404684-5.jpg",
+        "alt": "GRTB001 four-layer PCB layout and routing view",
+        "type": "image"
+      },
+      {
         "src": "assets/projects/grtb001-telemetry/schematic.png",
         "alt": "GRTB001 complete mixed-signal telemetry schematic rendered from the supplied KiCad PDF",
         "type": "image"

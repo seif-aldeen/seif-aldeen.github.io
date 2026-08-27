@@ -539,8 +539,15 @@ h1 {
 .project-hidden-badge { right: 12px; color: #fff; background: rgba(220,38,38,.86); }
 .status-production { color: #fff7ed; background: rgba(194,65,12,.88); }
 .status-prefab { color: #eff6ff; background: rgba(29,78,216,.86); }
-.status-validated { color: #ecfdf5; background: rgba(5,150,105,.86); }
-.status-complete { color: #f8fafc; background: rgba(51,65,85,.88); }
+.status-success,
+.status-validated { color: #ecfdf5; background: rgba(5,150,105,.88); }
+.status-progress,
+.status-warning { color: #fff7ed; background: rgba(217,119,6,.9); }
+.status-neutral,
+.status-complete { color: #f8fafc; background: rgba(71,85,105,.9); }
+.status-purple { color: #faf5ff; background: rgba(124,58,237,.9); }
+.status-danger { color: #fff1f2; background: rgba(220,38,38,.9); }
+.status-custom { color: var(--status-fg); background: var(--status-bg); }
 
 .view-case-study {
   position: absolute;
@@ -614,6 +621,7 @@ h1 {
 
 /* Case study navigation and media */
 #projectStatusDetail { margin-top: 14px; }
+#projectStatusDetail .project-status { position: static; display: inline-block; max-width: 100%; }
 
 .gallery-thumbnails {
   width: min(1100px, 90%);
@@ -721,6 +729,35 @@ h1 {
 .admin-check-grid { display: grid; gap: 9px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; }
 .admin-check-grid label { display: flex; gap: 9px; align-items: center; color: var(--text-muted); }
 .admin-check-grid input { accent-color: var(--accent); }
+
+.status-color-editor {
+  display: grid;
+  grid-template-columns: auto 52px minmax(150px, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.status-color-editor input[type="color"] {
+  width: 52px;
+  height: 38px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.status-color-preview {
+  justify-self: start;
+  max-width: 100%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font: 600 0.72rem 'Fira Code', monospace;
+  box-shadow: 0 4px 18px rgba(0,0,0,.24);
+}
 .work-card.dragging { opacity: .45; }
 .admin-hidden-project { opacity: .62; border-style: dashed; }
 .admin-drag-hint { color: var(--text-muted); font-size: .72rem; }
@@ -2459,6 +2496,8 @@ h1 {
   .case-study-nav { top: 64px; width: 94%; }
   .gallery-thumbnails { width: 94%; }
   .video-launch { min-height: 250px; }
+  .status-color-editor { grid-template-columns: auto 52px; }
+  .status-color-preview { grid-column: 1 / -1; }
 }
 
 @media (max-width: 480px) {
