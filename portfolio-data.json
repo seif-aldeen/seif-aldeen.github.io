@@ -253,15 +253,15 @@
     ],
     "detail": {
       "overview": "A complete suspension system designed for a Formula Student race car, focusing on vehicle dynamics, suspension geometry optimization, and structural performance.",
+      "objective": "Develop a Formula Student suspension concept that balances packaging, geometry, structural constraints, and predictable vehicle response.",
       "role": "I designed the suspension geometry and created the full CAD assembly using Autodesk Inventor. I also analyzed suspension kinematics and developed a quarter-car dynamic simulation model in MATLAB/Simulink.",
       "highlights": "Double wishbone suspension design\nSuspension geometry optimization\nCamber, caster, and toe analysis\nVehicle dynamics simulation\nQuarter-car Simulink model\nLoad transfer and ride analysis\nCAD assembly and packaging",
+      "milestones": "Double wishbone suspension design\nSuspension geometry optimization\nCamber, caster, and toe analysis\nVehicle dynamics simulation\nQuarter-car Simulink model\nLoad transfer and ride analysis\nCAD assembly and packaging",
+      "decisions": "Used a double-wishbone architecture\nIterated camber, caster, toe, and travel behavior\nCombined full CAD packaging with quarter-car dynamic simulation\nUsed kinematic analysis to evaluate heave and wheel-alignment behavior",
+      "deliverables": "Project implementation and supporting technical evidence are shown in the gallery.",
       "challenges": "One of the biggest challenges was balancing suspension stiffness and dynamic response while maintaining realistic Formula Student constraints. Multiple iterations were tested using simulation tools to optimize suspension travel and wheel alignment behavior.",
       "results": "The final design achieved stable suspension kinematics and realistic dynamic behavior suitable for Formula Student applications.",
-      "technologies": "Autodesk Inventor • MATLAB • Simulink • OptimumKinematics • Vehicle Dynamics • Mechanical Design",
-      "milestones": "Double wishbone suspension design\nSuspension geometry optimization\nCamber, caster, and toe analysis\nVehicle dynamics simulation\nQuarter-car Simulink model\nLoad transfer and ride analysis\nCAD assembly and packaging",
-      "deliverables": "Project implementation and supporting technical evidence are shown in the gallery.",
-      "objective": "Develop a Formula Student suspension concept that balances packaging, geometry, structural constraints, and predictable vehicle response.",
-      "decisions": "Used a double-wishbone architecture\nIterated camber, caster, toe, and travel behavior\nCombined full CAD packaging with quarter-car dynamic simulation\nUsed kinematic analysis to evaluate heave and wheel-alignment behavior"
+      "technologies": "Autodesk Inventor • MATLAB • Simulink • OptimumKinematics • Vehicle Dynamics • Mechanical Design"
     },
     "coverSettings": {
       "focusX": 50,
@@ -272,11 +272,11 @@
     "reviewTitle": "",
     "reviewText": "",
     "reviewDate": "",
-    "featured": true,
+    "featured": false,
     "hidden": false,
     "approvalPending": false,
     "status": "Design & Simulation Complete",
-    "statusTone": "complete",
+    "statusTone": "neutral",
     "categories": [
       "Mechanical Design"
     ]
@@ -487,15 +487,15 @@
     ],
     "detail": {
       "overview": "An autonomous robot developed for a Capture The Flag robotics competition. The robot was designed for navigation, obstacle avoidance, and target interaction in a dynamic competition environment.",
+      "objective": "Build an autonomous robot able to navigate a competition maze, avoid obstacles, and complete capture-the-flag tasks under uncertain conditions.",
       "role": "I was responsible for the robot control system and software logic, including sensor integration, navigation behavior, and state machine development.",
       "highlights": "Autonomous navigation\nSensor fusion implementation\nState machine architecture\nESP32-based embedded control\nObstacle avoidance logic\nCompetition strategy implementation\nReal-time decision making",
+      "milestones": "Autonomous navigation\nSensor fusion implementation\nState machine architecture\nESP32-based embedded control\nObstacle avoidance logic\nCompetition strategy implementation\nReal-time decision making",
+      "decisions": "Used an explicit state-machine architecture\nCombined multiple sensors rather than trusting a single navigation input\nDesigned recovery behavior for unpredictable competition states",
+      "deliverables": "Working implementation\nProject photos and technical evidence\nDesign, simulation, or competition validation shown in the gallery",
       "challenges": "The main challenge was ensuring reliable autonomous behavior under unpredictable competition conditions. Extensive testing and debugging were performed to improve navigation accuracy and system stability.",
       "results": "The robot successfully completed autonomous navigation tasks and contributed to achieving first place in the competition.",
-      "technologies": "ESP32 • Embedded Systems • Robotics • Sensor Fusion • State Machines • C++",
-      "milestones": "Autonomous navigation\nSensor fusion implementation\nState machine architecture\nESP32-based embedded control\nObstacle avoidance logic\nCompetition strategy implementation\nReal-time decision making",
-      "deliverables": "Working implementation\nProject photos and technical evidence\nDesign, simulation, or competition validation shown in the gallery",
-      "objective": "Build an autonomous robot able to navigate a competition maze, avoid obstacles, and complete capture-the-flag tasks under uncertain conditions.",
-      "decisions": "Used an explicit state-machine architecture\nCombined multiple sensors rather than trusting a single navigation input\nDesigned recovery behavior for unpredictable competition states"
+      "technologies": "ESP32 • Embedded Systems • Robotics • Sensor Fusion • State Machines • C++"
     },
     "coverSettings": {
       "focusX": 50,
@@ -506,11 +506,11 @@
     "reviewTitle": "",
     "reviewText": "",
     "reviewDate": "",
-    "featured": false,
+    "featured": true,
     "hidden": false,
     "approvalPending": false,
     "status": "1st Place Competition Robot",
-    "statusTone": "validated",
+    "statusTone": "neutral",
     "categories": [
       "Robotics",
       "Embedded Systems"
