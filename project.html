@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Details | Seif Aldeen</title>
     <meta name="description" content="Project detail page for Seif Aldeen's portfolio.">
+    <link rel="canonical" href="https://seif-aldeen.github.io/project.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Engineering Project | Seif Aldeen">
+    <meta property="og:description" content="Engineering case study by Seif Aldeen.">
+    <meta property="og:image" content="https://seif-aldeen.github.io/assets/projects/onpole-wearable-pcb/top-view.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -18,20 +23,56 @@
         <h1>Loading...</h1>
         <span class="card-label"></span>
         <ul class="tag-list" style="justify-content: center;"></ul>
+        <div id="projectStatusDetail"></div>
+        <div class="project-rating-detail" id="projectRatingDetail" hidden></div>
       </section>
 
       <div class="media-container">
-        <img src="" alt="Project Media">
+        <img alt="Project Media">
       </div>
 
+      <div class="gallery-thumbnails" id="galleryThumbnails" aria-label="Project media"></div>
+
+      <nav class="case-study-nav" aria-label="Case study sections">
+        <a href="#case-overview">Overview</a>
+        <a href="#case-objective">Objective</a>
+        <a href="#detailMilestones">Milestones</a>
+        <a href="#detailDecisions">Decisions</a>
+        <a href="#detailDeliverables">Evidence</a>
+        <a href="#detailResults">Results</a>
+        <a href="#case-gallery">Gallery</a>
+      </nav>
+
       <div class="project-details">
-        <h2>Overview</h2>
-        <p id="detailOverview">Loading...</p>
+        <div id="case-overview" class="case-anchor">
+          <h2>Overview</h2>
+          <p id="detailOverview">Loading...</p>
+        </div>
+
+        <div id="case-objective" class="case-anchor">
+          <h2>Project Objective</h2>
+          <p id="detailObjective">Loading...</p>
+        </div>
 
         <h2>My Role & Implementation</h2>
         <p id="detailRole">Loading...</p>
 
         <div id="detailHighlights">
+          <h2></h2>
+          <div class="detail-body"></div>
+        </div>
+
+        <div id="detailMilestones">
+          <h2></h2>
+          <div class="detail-body"></div>
+        </div>
+
+        <div id="detailDecisions">
+          <h2></h2>
+          <div class="detail-body"></div>
+        </div>
+
+        <div id="detailDeliverables">
           <h2></h2>
           <div class="detail-body"></div>
         </div>
@@ -46,13 +87,36 @@
           <div class="detail-body"></div>
         </div>
 
+        <div id="detailClientFeedback">
+          <h2>Client Feedback</h2>
+          <div class="detail-body"></div>
+        </div>
+
         <div id="detailTechnologies">
           <h2></h2>
           <div class="detail-body"></div>
         </div>
 
-        <h2>Gallery</h2>
-        <div class="photo-gallery" id="photoGallery"></div>
+        <div id="case-gallery" class="case-anchor">
+          <h2>Gallery</h2>
+          <div class="photo-gallery" id="photoGallery"></div>
+        </div>
+
+        <section class="project-cta" aria-labelledby="project-cta-heading">
+          <div>
+            <span class="card-label">Have a similar hardware challenge?</span>
+            <h2 id="project-cta-heading">Let's turn it into a reviewable, manufacturing-ready design.</h2>
+          </div>
+          <div class="project-cta-actions">
+            <a class="button button-primary" href="https://www.upwork.com/freelancers/seifaldeen1" target="_blank" rel="noopener noreferrer">Hire Me on Upwork</a>
+            <a class="button button-secondary" href="mailto:seifaldeengr@gmail.com">Email Me</a>
+          </div>
+        </section>
+
+        <nav class="project-pagination" aria-label="More projects">
+          <a id="prevProjectLink" href="index.html#work"></a>
+          <a id="nextProjectLink" href="index.html#work"></a>
+        </nav>
       </div>
     </main>
 
@@ -62,7 +126,7 @@
       <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">&#8249;</button>
       <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">&#8250;</button>
       <div class="lightbox-content">
-        <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        <img class="lightbox-img" id="lightboxImg" alt="">
       </div>
       <div class="lightbox-counter" id="lightboxCounter"></div>
     </div>
@@ -71,6 +135,8 @@
       <p>&copy; <span id="year"></span> Seif Aldeen Saeed Ahmed. All rights reserved.</p>
     </footer>
 
+    <script src="portfolio-data.js"></script>
+    <script src="site-content.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -1,0 +1,1 @@
+window.PORTFOLIO_PAGE_CONTENT = {};
